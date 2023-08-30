@@ -101,7 +101,7 @@ Suggest to configure and test this before final assembly:
 Download the App from the [Releases section.](https://github.com/jlecomte/ascom-telescope-cover/releases).
 Use the App to test the remote operation of the cover. The display area show the messages send and received and the state of the cover. The Test Ping button can be used to test the handshake between the Arduino and the ASCOM driver.
 
-![Remote Cover App](./images/Remote Cover App.png  "Remote Cover App")
+![Remote Cover App](./images/RemoteCoverApp.png  "Remote Cover App")
 
 ### ASCOM Driver
 
