@@ -19,9 +19,16 @@
 
 ## Introduction
 
-This repository contains code that allows you to build your own automated telescope cover. Here is a short demo video of the finished product, hosted on YouTube. Check it out!
+This repository contains code that allows you to build your own automated telescope cover. 
+It is based on the work of DarkSkyGeek, see [https://www.cloudynights.com/topic/819408-ascom-compatible-automated-telescope-dust-cover/](https://www.cloudynights.com/topic/819408-ascom-compatible-automated-telescope-dust-cover/).
 
-[![Short demo video of the finished product](images/YouTube-thumbnail.png)](https://www.youtube.com/watch?v=h6WpVCcGNUw)
+![Remote Cover Opene](/home/robert/github/RemoteCover/ascom-telescope-cover/images/Remote Cover Opened.jpg  "Remote Cover Opened")
+
+My requirements:
+
+- (https://nighttime-imaging.eu/)  can open and close the cover so I can take Master Dark frames after an imaging session
+- A separate app for testing and manual imaging sessions van also open and close the cover remotely and detect it's state 
+- A physical button on the cover can be used to open and close the cover when I'm at the telescope 
 
 In this repository, you will find:
 
