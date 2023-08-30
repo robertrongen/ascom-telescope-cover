@@ -6,7 +6,7 @@ This repository contains code that allows you to build an automated telescope co
 
 [Demo video](https://youtube.com/shorts/TBGS7q0xyxU) 
 
-![Remote Cover Opened](./images/Remote Cover Opened.jpg  "Remote Cover Opened")
+![Remote Cover Opened](./images/RemoteCoverOpened.jpg  "Remote Cover Opened")
 
 
 
@@ -74,7 +74,7 @@ The non-latching button has to be connected to the Arduino board as follows:
 
 *The push button connection is taken from this project: *[instructables.com/How-to-use-a-Push-Button-Arduino-Tutorial/](https://www.instructables.com/How-to-use-a-Push-Button-Arduino-Tutorial/) 
 
-![Remote Cover Electronics](./images/Remote Cover Electronics.jpg  "Remote Cover Electronics")
+![Remote Cover Electronics](./images/RemoteCoverElectronics.jpg  "Remote Cover Electronics")
 
 ### Arduino firmware configuration
 
@@ -133,14 +133,14 @@ Types registered successfully
 
 When the ASCOM driver is correctly installed and the USB port is correctly configured, N.I.N.A. should automatically detect is as a **Switch** with the name *DarkSkyGeek's Telescope Cover*.
 
-![Remote Cover NINA Equipment](./images/Remote Cover NINA Equipment.png  "Remote Cover NINA Equipment")
+![Remote Cover NINA Equipment](./images/RemoteCoverNINA Equipment.png  "Remote Cover NINA Equipment")
 
 The Switch can be added to an advanced sequence in N.I.N.A. using the **Set Switch Value** trigger:
 
 - 0 = Closed (default)
 - 1 = Opened
 
-![Remote Cover NINA Sequence](./images/Remote Cover NINA Sequence.png  "Remote Cover NINA Sequence")
+![Remote Cover NINA Sequence](./images/RemoteCoverNINASequence.png  "Remote Cover NINA Sequence")
 
 ## Application architecture overview
 
