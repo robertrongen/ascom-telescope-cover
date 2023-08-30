@@ -1,73 +1,109 @@
 # ASCOM-Compatible Telescope Cover
 
-<!-- toc -->
-
-- [Introduction](#introduction)
-- [Pre-Requisites](#pre-requisites)
-- [Hardware](#hardware)
-- [ASCOM Driver](#ascom-driver)
-  - [Downloading And Installing The Driver](#downloading-and-installing-the-driver)
-  - [Compiling The Driver (For Developers Only)](#compiling-the-driver-for-developers-only)
-- [Arduino Firmware](#arduino-firmware)
-  - [Microcontroller Compatibility](#microcontroller-compatibility)
-  - [Compiling And Uploading The Firmware](#compiling-and-uploading-the-firmware)
-- [Mechanical Components](#mechanical-components)
-- [Electronic Circuit](#electronic-circuit)
-- [Ideas For Future Improvements](#ideas-for-future-improvements)
-
-<!-- tocstop -->
-
 ## Introduction
 
-This repository contains code that allows you to build your own automated telescope cover. 
-It is based on the work of DarkSkyGeek, see [https://www.cloudynights.com/topic/819408-ascom-compatible-automated-telescope-dust-cover/](https://www.cloudynights.com/topic/819408-ascom-compatible-automated-telescope-dust-cover/).
+This repository contains code that allows you to build an automated telescope cover that can be remotely controlled by astro imaging software. This enables you to capture Master Dark frames right after or in between imaging sessions using similar temperature conditions. 
 
-![Remote Cover Opene](/home/robert/github/RemoteCover/ascom-telescope-cover/images/Remote Cover Opened.jpg  "Remote Cover Opened")
+[Demo video](https://youtube.com/shorts/TBGS7q0xyxU) 
 
-My requirements:
+![Remote Cover Opened](./images/Remote Cover Opened.jpg  "Remote Cover Opened")
 
-- (https://nighttime-imaging.eu/)  can open and close the cover so I can take Master Dark frames after an imaging session
+
+
+### Requirements
+
+My specific **requirements**:
+
+- My imaging software [**N.I.N.A.**](https://nighttime-imaging.eu/)  can open and close the cover so I can take Master Dark frames after an imaging session
 - A separate app for testing and manual imaging sessions van also open and close the cover remotely and detect it's state 
 - A physical button on the cover can be used to open and close the cover when I'm at the telescope 
 
-In this repository, you will find:
+This repo is based on the work of **DarkSkyGeek**:
 
-* The code for the ASCOM driver (Microsoft Visual Studio 2022 project)
-* The code for the Arduino firmware
-* The various STL files to 3D print all the mechanical parts
-* A blueprint for the electronic circuit
+- [cloudynights.com/topic/819408-ascom-compatible-automated-telescope-dust-cover/](https://www.cloudynights.com/topic/819408-ascom-compatible-automated-telescope-dust-cover/).
+- [github.com/jlecomte/automated-telescope-dust-cover](https://github.com/jlecomte/automated-telescope-dust-cover)
 
-## Pre-Requisites
+In this repository, you will find a copy of DarkSkyGeek repo:
 
-* A Windows computer (Windows 10 or newer)
-* [Microsoft Visual Studio](https://visualstudio.microsoft.com/) (FYI, I used the 2022 edition...)
-* [ASCOM Platform](https://ascom-standards.org/)
-* [ASCOM Platform Developer Components](https://ascom-standards.org/COMDeveloper/Index.htm)
-* [Arduino IDE](https://www.arduino.cc/en/software)
-* [FreeCAD](https://www.freecadweb.org/), a free and open-source 3D parametric modeler
-* A 3D printer able to print PETG, and a slicer (I use a heavily upgraded Creality Ender 3 v2, and Ultimaker Cura)
-* A few basic tools that any tinkerer must own, such as a breadboard, a soldering iron, etc.
+- The code for the ASCOM driver (Microsoft Visual Studio 2022 project) with a release file
+- The various STL files to 3D print all the mechanical parts, which I did not use as I have a different size telescope and have no experience with 3D printing, yet
 
-## Hardware
+to which I have added:
 
-The following are just suggestions... Also, over time, some of the Amazon links may no longer work...
+- Adjusted code for **Arduino Nano** firmware
+- Python code for a **remote app** with a Windows executable release file
+- An alternative electronic circuit for adding a **manual control button** and using specific electronic hardware
 
-* [Seeeduino XIAO](https://www.seeedstudio.com/Seeeduino-XIAO-Arduino-Microcontroller-SAMD21-Cortex-M0+-p-4426.html) (You can get it quicker from Amazon, but you will have to pay twice as much!)
-* [Mini360 Buck Converters](https://www.amazon.com/dp/B07T7L51ZW)
-* [Perforated Circuit Board (PCB)](https://www.amazon.com/dp/B07NM68FXK)
-* [DC Power Jack](https://www.amazon.com/dp/B01N8VV78D)
-* [High torque quality Servo with 270° control angle](https://www.amazon.com/dp/B07S9XZYN2)
-* [Aluminum Servo Horn](https://www.amazon.com/dp/B07D56FVK5)
-* [Bench Power Supply](https://www.amazon.com/dp/B07GCJ5QHF)
-* [Threaded inserts for 3D printed parts](https://www.amazon.com/dp/B07VFZWWXY)
-* [Assortment of small metric screws, nuts, and washers](https://www.amazon.com/dp/B08JCKH31Q)
-* [22AWG solid core electrical wires](https://www.amazon.com/dp/B088KQFHV7)
-* [Easy-to-print PETG filament](https://www.amazon.com/dp/B07PGYHYV8)
-* [Stainless steel cut-to-length hose clamp](https://www.amazon.com/dp/product/B08Y6LSL3R)
+***I did not include a design or specifications for an actual cover nor an electronics compartment nor a attachment mechanism, I leave that to your creativity.***
 
-## ASCOM Driver
+## Design
 
-### Downloading And Installing The Driver
+Hardware used in this project:
+
+- **RDS3115 servo** kit to move the cover (manufacturer: [dsservo.com](https://www.dsservo.com/show_imgnews.asp?id=417)) 
+- **Arduino Nano** v3 controller CH340G/ATmega328P to control and power the servo kit
+- An USB cable to connect the Arduino to the PC
+- A non-latching button with a resistor to send a manual trigger command to the Arduino
+
+## Build instruction 
+
+1. Connect the **Electronics**
+1. Update the **firmware** code in the remote_cover_ascom.ino file with the correct **configuration** as described in this section
+1. **Flash** the firmware to the Arduino
+1. **Test** using the non-latching button and adjust the configuration until the open and closed position are correct
+1. Connect the Arduino to the **PC** and check the USB Coms port settings
+1. Install the **App** and repeat the test
+*1. Connect the actual cover to the servo motor and install it on the telescope*
+1. Install the **ASCOM** driver
+1. Open **N.I.N.A.** and connect the remote cover via the **Equipment** section as a **Switch**
+
+### Electronics
+
+The servo has to be connected to the Arduino board as follows: 
+
+- Red cable: +5V ()
+- Black cableGround ()
+- White cable: One of the signal pins of the Arduino board (in the current code to pin D2) 
+
+The non-latching button has to be connected to the Arduino board as follows:
+
+- From the Arduino **5V** connector to the **button input** connector
+- From a **signal pin** of the Arduino board (in the current code pin D9) to a **button output** connector
+- In parallel, from the **button output** connector to a **resistor** (10 kOhm)
+- From the **resistor** to an Arduino **Ground** connector
+
+*The push button connection is taken from this project: *[instructables.com/How-to-use-a-Push-Button-Arduino-Tutorial/](https://www.instructables.com/How-to-use-a-Push-Button-Arduino-Tutorial/) 
+
+![Remote Cover Electronics](./images/Remote Cover Electronics.jpg  "Remote Cover Electronics")
+
+### Arduino firmware configuration
+
+*Reference for editing and flashing the Arduino: *[arduino.cc/en/software](https://www.arduino.cc/en/software)
+
+The Arduino pin connections to the button and the servo must be set in the firmware code:
+
+- line 34: `Switch = 9`: input pin for the non-latching button, in this example pin 9
+- line 46: `servo.attach(2)`: output pin for the servo, in this example pin 2
+
+The Arduino communicates via a serial port that is configured and activated in the firmware code. 
+The serial port and baud rate settings must align with the settings of the USB port in the Windows PC:
+
+- line39: `Serial.begin(57600)`: 
+
+The servo is switching between an open angle and a closed angle, both to be configured in the firmware code.
+Suggest to configure and test this before final assembly:
+
+- line 30: `angle_closed = 103`: This is the default position of the cover wil go to when the Arduino is powered on
+- line 31: `angle_open = 35`: Currently set to a 90 degrees angle relative to the closed position
+
+### The App
+
+Download the App from the [Releases section.](https://github.com/jlecomte/ascom-telescope-cover/releases).
+Use the App to test the remote operation of the cover. The display area show the messages send and received and the state of the cover. The Test Ping button can be used to test the handshake between the Arduino and the ASCOM driver.
+
+![Remote Cover App](./images/Remote Cover App.png  "Remote Cover App")
+
+### ASCOM Driver
 
 **Step 1:** Download the driver from the [releases page](https://github.com/jlecomte/ascom-telescope-cover/releases), and place the file `ASCOM.DarkSkyGeek.TelescopeCover.dll` somewhere on your system (example: `C:\Users\julien\ascom-telescope-cover\`).
 
@@ -93,42 +129,22 @@ Types registered successfully
 
 **Step 4:** Start (or restart, if it was already running) N.I.N.A. (or whatever application you use to control your equipment).
 
-### Compiling The Driver (For Developers Only)
+### N.I.N.A.
 
-Open Microsoft Visual Studio as an administrator (right click on the Microsoft Visual Studio shortcut, and select "Run as administrator") This is required because when building the code, by default, Microsoft Visual Studio will register the necessary COM components, and this operation requires special privileges (Note: This is something you can disable in the project settings...) Then, open the solution (`ASCOM_Driver\ASCOM.DarkSkyGeek.TelescopeCover.sln`), change the solution configuration to `Release` (in the toolbar), open the `Build` menu and click on `Build Solution`. As long as you have properly installed all the required dependencies, the build should succeed and the ASCOM driver will be registered on your system. The binary file generated will be `ASCOM_Driver\bin\Release\ASCOM.DarkSkyGeek.TelescopeCover.dll`. You may also download this file from the [Releases page](https://github.com/jlecomte/ascom-telescope-cover/releases).
+When the ASCOM driver is correctly installed and the USB port is correctly configured, N.I.N.A. should automatically detect is as a **Switch** with the name *DarkSkyGeek's Telescope Cover*.
 
-## Arduino Firmware
+![Remote Cover NINA Equipment](./images/Remote Cover NINA Equipment.png  "Remote Cover NINA Equipment")
 
-### Microcontroller Compatibility
+The Switch can be added to an advanced sequence in N.I.N.A. using the **Set Switch Value** trigger:
 
-Pretty much all Arduino-compatible boards should work. There is nothing magical about the firmware. However, see the comment regarding the pins and the servo library. Depending on the exact board you picked, you might have to change that.
+- 0 = Closed (default)
+- 1 = Opened
 
-### Compiling And Uploading The Firmware
+![Remote Cover NINA Sequence](./images/Remote Cover NINA Sequence.png  "Remote Cover NINA Sequence")
 
-* Add support for Seeeduino boards by following [the instructions from the board manufacturer](https://wiki.seeedstudio.com/Seeeduino-XIAO/).
-* To customize the name of the device when connected to your computer, open the file `boards.txt`, which, on my system and for the version of the Seeeduino board I am using, is located at `%LOCALAPPDATA%\Arduino15\packages\Seeeduino\hardware\samd\1.8.2\boards.txt`. Then, change the value of the key `seeed_XIAO_m0.build.usb_product` from `Seeed XIAO M0` (default) to whatever you'd like.
-* Finally, connect your Seeeduino board to your computer (make sure you use a USB-C cable that supports data and not just power!), open the sketch file located at `Arduino_Firmware\Arduino_Firmware.ino`, and click on the `Upload` button in the toolbar.
+## Application architecture overview
 
-## Mechanical Components
+![Remote Cover Architecture](./images/RemoteCoverArchitecture.png  "Remote Cover Architecture")
 
-Here is a 3D rendering of all the parts involved in this project:
 
-![3D Rendering](images/3D_Rendering.png)
 
-The STL files you will find in the `3D_Files/` folder are just a starting point. You will likely have to create your own version of this project, if only to match the base curvature to your own OTA... That is why I included the FreeCAD file in this repository! (also in the `3D_Files/` folder)
-
-## Electronic Circuit
-
-![Electronics Blueprint](images/Electronics_Blueprint.png)
-
-Here is what the electronic circuit looks like:
-
-![Electronic Circuit](images/Electronic_Circuit.png)
-
-In the photograph above, the components were soldered onto a 60mm x 40mm PCB.
-
-## Ideas For Future Improvements
-
-* Remove the need for a separate 12V power connector, i.e. use the USB cable for both data and power. This change would prevent us from using an Arduino-compatible board because the maximum current that can be delivered by an Arduino-compatible board is usually around 200mA, which is not enough for a powerful servo. In order to do this, you'd have to basically build your own Arduino board using a micro-controller, a USB jack, a USB driver, and many other components... It's quite a project on its own, which is why I decided to go the "easy" route... Alternatively, I found a unit called "PD Micro" which implements USB-C power delivery. I have not tried it yet, but it looks promising.
-* Automatically sense the position of the cover before powering up the servo. Right now, if you power up the unit while the cover is open, it will suddenly close very quickly. That can be quite a jarring experience the first time you see it happen. And if something is in the way (example: a flat panel), you could potentially damage your equipment. This could be solved with a simple potentiometer attached to the servo arm.
-* Integrate a flat field panel inside the cover. I wanted to keep this project relatively simple, and I did not want to add any more weight to the front end of my already front heavy refractor, so I skipped that, but it can be done and would be a great addition to this project!
