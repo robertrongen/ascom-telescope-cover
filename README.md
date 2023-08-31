@@ -133,7 +133,7 @@ Types registered successfully
 
 When the ASCOM driver is correctly installed and the USB port is correctly configured, N.I.N.A. should automatically detect is as a **Switch** with the name *DarkSkyGeek's Telescope Cover*.
 
-![Remote Cover NINA Equipment](./images/RemoteCoverNINA Equipment.png  "Remote Cover NINA Equipment")
+![Remote Cover NINA Equipment](./images/RemoteCoverNINAEquipment.png  "Remote Cover NINA Equipment")
 
 The Switch can be added to an advanced sequence in N.I.N.A. using the **Set Switch Value** trigger:
 
